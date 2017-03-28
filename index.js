@@ -53,13 +53,30 @@ app.post('/apiv1/anuncios', (req, res) => {
   });
 });
 
-app.put('/apiv1/anuncios/:anunciosId', (req, res) => {
+app.put('/apiv1/anuncios/:anuncioId', (req, res) => {
+  let anunciosId = req.params.anuncioId
+  let update = req.body
 
+  Anuncio.findByIdAndUpdate(anunciosId, update, (err, anuncioUpdate) => {
+    if (err) res.status(500).send( { message: `Error al actualizar el anuncio: ${err}`});
+
+    res.status(200).send({ anuncio: anuncioUpdate });
+  })
 })
 
-app.delete('/apiv1/anuncios/:anunciosId', (req, res) => {
+app.delete('/apiv1/anuncios/:anuncioId', (req, res) => {
+  let anuncioId = req.params.anuncioId
 
+  Anuncio.findById(anuncioId, (err, anuncio) => {
+    if (err) res.status(500).send( { message: `Error al borrar el anuncio: ${err}`});
+
+    anuncio.remove(err => {
+      if (err) res.status(500).send( { message: `Error al borrar el anuncio: ${err}`});
+      res.status(200).send({ message: 'El producto ha sido eliminado'})
+    })
+  })
 })
+
 mongoose.connect('mongodb://localhost:27017/nodepop', (err, res) => {
   if (err) {
     return console.log(`Error al conectar a la base de datos: ${err}`);
