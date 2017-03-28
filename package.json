@@ -1,0 +1,20 @@
+{
+  "name": "nodepop",
+  "version": "1.0.0",
+  "description": "API for IOS & Android",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Miguel Alvarez Maidero (https://twitter.com/EleMikelo)",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "1.17.1",
+    "express": "4.15.2",
+    "mongoose": "4.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  }
+}
