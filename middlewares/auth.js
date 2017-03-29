@@ -15,7 +15,6 @@ function isAuth (req, res, next) {
   if (payload.exp <= moment().unix()) {
     return res.status(401).send({message: 'El token ha expirado'})
   }
-
   req.user = payload.sub
   next()
 }

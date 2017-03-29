@@ -2,6 +2,8 @@
 
 const express = require('express')
 const anuncioCtrl = require('../controllers/anuncio')
+const authCtrl = require('../controllers/auth')
+
 const api = express.Router()
 const auth = require('../middlewares/auth')
 
@@ -15,8 +17,6 @@ api.put('/anuncios/:anuncioId', anuncioCtrl.updateAnuncio)
 
 api.delete('/anuncios/:anuncioId', anuncioCtrl.deleteAnuncio)
 
-api.get('/private', auth.isAuth, function (req, res) {
-  res.status(200).send({message: 'Tienes acceso'})
-})
+api.post('/create', authCtrl.register)
 
 module.exports = api

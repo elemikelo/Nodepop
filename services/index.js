@@ -4,13 +4,13 @@ const jwt = require('jwt-simple')
 const moment = require('moment')
 const config = require('../config')
 
-function createToken(user) {
+function createToken (user) {
   const payload = {
     sub: user._id,
     iat: moment().unix(), // Momento que se crea el token
-    exp: moment().add(14, 'days').unix(), // Tiempo que caduca
+    exp: moment().add(14, 'days').unix() // Tiempo que caduca
   }
-  return jwt.encoded(payload, config.SECRET_TOKEN)
+  return jwt.encode(payload, config.SECRET_TOKEN)
 }
 
-module.exports = createToken
+module.exports = {createToken}

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const AnuncioSchema = Schema({
   name: String,
@@ -11,4 +11,4 @@ const AnuncioSchema = Schema({
   tags: [String]
 })
 
-module.exports = mongoose.model('Anuncios', AnuncioSchema);
+module.exports = mongoose.model('Anuncios', AnuncioSchema)
