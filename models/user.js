@@ -14,7 +14,7 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', function (next) {
   let user = this
-  if (!user.isModified('password')) return next() // si las pass es modificada o es nueva
+  if (!user.isModified('password')) return next() // si la pass es modificada o es nueva
 
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next(err)
@@ -27,5 +27,12 @@ UserSchema.pre('save', function (next) {
     })
   })
 })
+
+UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    if (err) return cb(err)
+    cb(null, isMatch)
+  })
+}
 
 module.exports = mongoose.model('User', UserSchema)

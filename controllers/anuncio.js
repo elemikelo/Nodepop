@@ -16,14 +16,13 @@ function getAnuncio (req, res) {
 function getAnuncios (req, res) {
   Anuncio.find({}, (err, anuncios) => {
     if (err) return res.status(500).send({message: `Error al realizar la peticion: ${err}`})
-    if (!anuncios) return res.status(404).send({message: `No existen productos`})
+    if (!anuncios) return res.status(404).send({message: `No existen anuncios`})
 
     res.status(200).send({anuncios}) // anuncios: anuncios , sintaxis de ECMACrips6
   })
 }
 
 function saveAnuncio (req, res) {
-  console.log('POST /api/product')
   console.log(req.body)
 
   let anuncio = new Anuncio()
@@ -34,7 +33,7 @@ function saveAnuncio (req, res) {
   anuncio.tags = req.body.tags
 
   anuncio.save((err, anuncioStored) => {
-    if (err) res.status(500).send({message: `Error al salvar en la base de datos: ${err}`})
+    if (err) return res.status(500).send({message: `Error al salvar en la base de datos: ${err}`})
 
     res.status(200).send({anuncio: anuncioStored})
   })
@@ -45,7 +44,7 @@ function updateAnuncio (req, res) {
   let update = req.body
 
   Anuncio.findByIdAndUpdate(anunciosId, update, (err, anuncioUpdate) => {
-    if (err) res.status(500).send({message: `Error al actualizar el anuncio: ${err}`})
+    if (err) return res.status(500).send({message: `Error al actualizar el anuncio: ${err}`})
 
     res.status(200).send({ anuncio: anuncioUpdate })
   })
@@ -56,7 +55,7 @@ function deleteAnuncio (req, res) {
   let update = req.body
 
   Anuncio.findByIdAndUpdate(anunciosId, update, (err, anuncioUpdate) => {
-    if (err) res.status(500).send({message: `Error al actualizar el anuncio: ${err}`})
+    if (err) return res.status(500).send({message: `Error al actualizar el anuncio: ${err}`})
 
     res.status(200).send({ anuncio: anuncioUpdate })
   })
