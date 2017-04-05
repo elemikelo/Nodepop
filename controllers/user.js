@@ -19,7 +19,6 @@ function register (req, res) {
   })
 }
 
-
 function login (req, res) {
   User.findOne({email: req.body.email}, function (err, user) {
     if (err) return res.status(500).send({success: false, message: `Error al autenticar al usuario: ${err}`})

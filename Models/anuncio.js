@@ -3,12 +3,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const AnuncioSchema = Schema({
+const anuncioSchema = Schema({
   name: String,
   sales: Boolean,
   price: { type: Number, default: 0 },
   photo: String,
-  tags: [String]
+  tags: { type: String, enum: ['work', 'lifestyle', 'motor', 'mobile'] }
 })
 
-module.exports = mongoose.model('Anuncios', AnuncioSchema)
+anuncioSchema.statics.list = function (filter, cb) {
+  const query = Anuncio.find(filter)
+  query.exec(cb)
+}
+
+var Anuncio = mongoose.model('Anuncio', anuncioSchema)
+
+module.exports = Anuncio
