@@ -6,7 +6,7 @@ const auth = require('../middlewares/auth')
 
 const routerAnuncio = express.Router()
 
-routerAnuncio.get('/anuncios', auth.isAuth, anuncioCtrl.getAnuncios)
+routerAnuncio.get('/anuncios', anuncioCtrl.getAnuncios) // auth.isAuth
 
 routerAnuncio.get('/anuncios/:anuncioId', anuncioCtrl.getAnuncio)
 

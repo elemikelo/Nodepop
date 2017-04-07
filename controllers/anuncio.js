@@ -18,19 +18,31 @@ function getAnuncio (req, res) {
 }
 
 function getAnuncios (req, res) {
+  const name = req.query.name
   const tags = req.query.tags
   const sales = req.query.sales
   const sort = req.query.sort
+  const limit = parseInt(req.query.limit)
+  const price = req.query.price
   const filter = {}
 
-  if (tags) {
-    filter.tags = tags
+  if (tags) filter.tags = { $in: tags.split(',') }
+
+  if (sales) filter.sales = sales
+
+  if (name) filter.name = new RegExp('^' + req.query.name, 'i')
+
+  const priceLimits = price.split('-')
+  if (priceLimits.length === 1) {
+    if (priceLimits[0]) filter.price = priceLimits[0]
   }
-  if (sales) {
-    filter.sales = sales
+  else {
+    filter.price = {}
+    if (priceLimits[0]) filter.price.$gte = priceLimits[0] // si es true buscará mayores que_
+    if (priceLimits[1]) filter.price.$lte = priceLimits[1] // si no menor q
   }
 
-  Anuncio.list(filter, sort, (err, anuncios) => {
+  Anuncio.list(filter, sort, limit, price, (err, anuncios) => {
     if (err) {
       console.log({message: `Error al realizar la peticion: ${err}`})
       return res.status(500)
