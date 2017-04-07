@@ -1,33 +1,49 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt-nodejs')
 const User = require('../models/user')
-const service = require('../services')
+const createToken = require('../services/token.js')
 
-function register (req, res) {
+function register (req, res, next) {
   const user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password
   })
 
-  user.save((err, next) => {
-    if (err) return res.status(500).send({message: `Error al crear el usuario: ${err}`})
+  user.save((err) => {
+    if (err) return next(err)
 
-    return res.status(200).send({ token: service.createToken(user) })
+    createToken(user).then(token => {
+      res.json({ success: true, token })
+
+    }).catch(function (err) {
+      res.json({ success: false, message: err })
+    })
   })
 }
 
-function login (req, res) {
-  User.findOne({email: req.body.email}, function (err, user) {
-    if (err) return res.status(500).send({success: false, message: `Error al autenticar al usuario: ${err}`})
-    if (!user) return res.status(404).send({success: false, message: 'Este usuario no existe'})
+function login (req, res, next) {
+  const email = req.body.email
+  const password = req.body.password
 
-    User.comparePassword(req.body.password, function (err, res) {
-      if (err) return res.status(500).send({success: false, message: `Error al crear el usuario: ${err}`})
+  User.findOne({email}).exec((err, user) => {
+    if (err) return next(err)
 
-      return res.status(200).send({success: true, token: service.createToken(user)})
+    if (!user) return res.json({succes: false, error: 'User does not exist'})
+
+    // test a matching password
+    user.comparePassword(password, function (err, isMatch) {
+      if (err) return console.log('Error', err)
+      if (!isMatch) return res.status(401).send({success: false, message: 'Password Invalid'})
+
+      // Authorization == true , create token
+      createToken(user).then(token => {
+        return res.json({ success: true, token })
+
+      }).catch(function (err) {
+        res.json({ success: false, message: err })
+      })
     })
   })
 }

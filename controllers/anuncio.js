@@ -20,6 +20,7 @@ function getAnuncio (req, res) {
 function getAnuncios (req, res) {
   const tags = req.query.tags
   const sales = req.query.sales
+  const sort = req.query.sort
   const filter = {}
 
   if (tags) {
@@ -29,7 +30,7 @@ function getAnuncios (req, res) {
     filter.sales = sales
   }
 
-  Anuncio.list(filter, (err, anuncios) => {
+  Anuncio.list(filter, sort, (err, anuncios) => {
     if (err) {
       console.log({message: `Error al realizar la peticion: ${err}`})
       return res.status(500)

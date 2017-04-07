@@ -11,8 +11,9 @@ const anuncioSchema = Schema({
   tags: { type: String, enum: ['work', 'lifestyle', 'motor', 'mobile'] }
 })
 
-anuncioSchema.statics.list = function (filter, cb) {
+anuncioSchema.statics.list = function (filter, sort, cb) {
   const query = Anuncio.find(filter)
+  query.sort(sort)
   query.exec(cb)
 }
 

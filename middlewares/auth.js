@@ -1,22 +1,17 @@
 'use strict'
 
-const jwt = require('jwt-simple')
-const moment = require('moment')
+const jwt = require('jsonwebtoken')
 const config = require('../config')
 
 function isAuth (req, res, next) {
-  if (!req.headers.authorization) {
-    return res.status(403).send({ success: false, message: 'No tienes autorizacion' })
-  }
+  const token = req.query.token || req.get('x-access-token') || req.body.token
 
-  const token = req.headers.authorization.split(' ')[1]
-  const payload = jwt.decode(token, config.SECRET_TOKEN)
+  if (!token) return res.status(403).send({ success: false, message: 'No token provided' })
 
-  if (payload.exp <= moment().unix()) {
-    return res.status(401).send({message: 'El token ha expirado'})
-  }
-  req.user = payload.sub
-  next()
+  jwt.verify(token, config.SECRET_TOKEN, (err, decoded) => {
+    if (err) return next(new Error('Invalid Token'))
+    next()
+  })
 }
 
 module.exports = {isAuth}

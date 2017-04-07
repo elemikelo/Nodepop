@@ -2,12 +2,13 @@
 
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
 
 const UserSchema = new Schema({
   username: String,
   email: { type: String, unique: true, lowercase: true },
-  password: { type: String, select: false },
+  password: { type: String }, // si ponemos select: false no aparecerá en el query
   createAt: { type: Date, default: Date.now() },
   lastLogin: Date
 })
@@ -16,20 +17,15 @@ UserSchema.pre('save', function (next) {
   let user = this
   if (!user.isModified('password')) return next() // si la pass es modificada o es nueva
 
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) return next(err)
-
-    bcrypt.hash(user.password, salt, null, (err, hash) => {
-      if (err) return next(err)
-
-      user.password = hash
-      next()
-    })
+  bcrypt.hash(user.password, saltRounds, function (err, hash) {
+    if (err) return next(new Error('Error Save password'))
+    user.password = hash
+    next()
   })
 })
 
 UserSchema.methods.comparePassword = function (candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
     if (err) return cb(err)
     cb(null, isMatch)
   })
