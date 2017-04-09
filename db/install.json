@@ -1,0 +1,41 @@
+{
+    "users": [
+        {
+            "name": "user_1",
+            "email": "example1@gmail.com",
+            "password": "supersegura"
+        },
+        {
+            "name": "user_2",
+            "email": "example2@gmail.com",
+            "password": "supersegura2"
+        }
+    ],
+    "anuncios": [
+        {
+            "name": "Bicycle",
+            "sales": true,
+            "price": 230,
+            "photo": "bicycle.jpg",
+            "tags": ["lifestyle", "motor"]
+        },{
+            "name": "Yamaha R6",
+            "sales": true,
+            "price": 15400,
+            "photo": "volvo.jpg",
+            "tags": ["motor", "work"]
+        },{
+            "name": "iPhone 7",
+            "sales": false,
+            "price": 750,
+            "photo": "iphone7.jpg",
+            "tags": ["lifestyle", "mobile"]
+        },{
+            "name": "Macbook pro",
+            "sales": true,
+            "price": 1200,
+            "photo": "macbookpro.jpg",
+            "tags": ["work"]
+         }
+    ]
+}
