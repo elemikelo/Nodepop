@@ -2,8 +2,11 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-var path = require('path')
+const path = require('path')
 const logger = require('morgan')
+const HTTPStatus = require('http-status')
+const messages = require('./Middlewares/messages.js')
+
 const app = express()
 
 // view engine setup
@@ -12,8 +15,10 @@ app.set('view engine', 'ejs')
 
 // Middlewares
 app.use(logger('dev'))
+app.use(messages)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
 app.use('/apiv1', require('./routes/anuncio'))
@@ -28,10 +33,10 @@ app.use(function (req, res, next) {
 
 // error handler ; Manejador de Errores
 app.use(function (err, req, res, next) {
-  res.status(err.status || 500)
+  res.status(err.status || HTTPStatus.INTERNAL_SERVER_ERROR)
 
   if (isAPI(req)) {
-    res.json({success: false, error: err.message})
+    res.json({success: false, lang: res.language, error: err.message})
     return
   }
   // set locals, only providing error in development
