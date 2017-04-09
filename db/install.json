@@ -1,12 +1,12 @@
 {
     "users": [
         {
-            "name": "user_1",
+            "username": "user_1",
             "email": "example1@gmail.com",
             "password": "supersegura"
         },
         {
-            "name": "user_2",
+            "username": "user_2",
             "email": "example2@gmail.com",
             "password": "supersegura2"
         }
