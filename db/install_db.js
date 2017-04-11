@@ -1,31 +1,25 @@
 const path = require('path')
-const fs = require('fs')
-const mongoose = require('mongoose')
+const promises = require('../services/utils').promises
 
+require('../server')
 const Anuncio = require('../models/anuncio')
 const User = require('../models/user')
 
-require('../server')
-
-function readFile (path) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, (err, data) => {
-      if (err) return reject(err)
-      const jsonParser = JSON.parse(data.toString())
-
-      return resolve(jsonParser)
-    })
-  })
-}
-
 Promise.all([
   Anuncio.deleteMany(),
-  User.deleteMany()])
-  .then(readFile(path.join(__dirname, 'install.json')))
+  User.deleteMany()
+]).then(() => promises.readFile(path.join(__dirname, 'install.json')))
+  .then(promises.jsonBuffer)
   .then(json => Promise.all([
     User.insertMany(json.users),
-    Anuncio.insertMany(json.Anuncio)
+    Anuncio.insertMany(json.anuncios)
   ]))
+  .then((data) => {
+    console.log('Installed DB')
+    console.log('Users:', data[0].map(item => item.username))
+    console.log('Advertisements:', data[1].map(item => item.name))
+    process.exit(0)
+  })
   .catch((err) => {
     console.error('Error installing DB:', err)
     process.exit(1)

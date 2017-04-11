@@ -8,7 +8,7 @@ const anuncioSchema = Schema({
   sales: Boolean,
   price: { type: Number, default: 0 },
   photo: String,
-  tags: { type: String, enum: ['work', 'lifestyle', 'motor', 'mobile'] }
+  tags: { type: [ { type: String, enum: ['work', 'lifestyle', 'motor', 'mobile'] } ] }
 })
 
 anuncioSchema.statics.list = function (filter, sort, limit, price, cb) {
