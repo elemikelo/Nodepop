@@ -27,14 +27,41 @@ $ node /db/install_db.js
 ```
 
 
-5) Start with the project:
+4) Start with the project:
 ```
 $ npm start
 ```
 
-- API:
-
-```
-$ npm start
-```
 ## API advertisements
+
+Endpoint
+```
+(GET) List advertisements: http://localhost:3000/apiv1/anuncios
+```
+
+filters parameters : filter(price, name, tags), sort and limit.
+
+## API Users
+
+Endpoint Register
+
+```
+(POST) List advertisements: http://localhost:3000/apiv1/users/register
+```
+Parameters:
+```
+username: String
+password: String
+email: String
+```
+Endpoint login
+
+```
+(POST) List advertisements: http://localhost:3000/apiv1/users/login
+```
+
+Parameters:
+```
+username: String
+password: String
+```
