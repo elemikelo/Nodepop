@@ -4,7 +4,7 @@
   "description": "API for IOS & Android",
   "main": "index.js",
   "scripts": {
-    "start": "node server.py",
+    "start": "node server.js",
     "installDB": "node ./db/install_db.js"
   },
   "author": "Luis Miguel Alvarez Maidero (https://twitter.com/EleMikelo)",
