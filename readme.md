@@ -3,7 +3,7 @@
 
 ## How to start
 
-Clonar repositorio
+Cloning repository
 ```
 https://github.com/elemikelo/Nodepop
 ```
@@ -57,7 +57,7 @@ email: String
 Endpoint login
 
 ```
-(POST) List advertisements: http://localhost:3000/apiv1/users/login
+(POST) Authenticate : http://localhost:3000/apiv1/users/login
 ```
 
 Parameters:
