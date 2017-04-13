@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
-app.use('/apiv1', require('./routes/anuncio'))
+app.use('/apiv1', require('./routes/advertisement'))
 app.use('/apiv1/users', require('./routes/user'))
 
 // catch 404 and forward to error handler ; captura y reenvia al manejador de errores

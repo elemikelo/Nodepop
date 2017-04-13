@@ -2,17 +2,17 @@ const path = require('path')
 const promises = require('../services/utils').promises
 
 require('../server')
-const Anuncio = require('../models/anuncio')
+const Advertisement = require('../models/advertisement')
 const User = require('../models/user')
 
 Promise.all([
-  Anuncio.deleteMany(),
+  Advertisement.deleteMany(),
   User.deleteMany()
 ]).then(() => promises.readFile(path.join(__dirname, 'install.json')))
   .then(promises.jsonBuffer)
   .then(json => Promise.all([
     User.insertMany(json.users),
-    Anuncio.insertMany(json.anuncios)
+    Advertisement.insertMany(json.advertisements)
   ]))
   .then((data) => {
     console.log('Installed DB')
