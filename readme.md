@@ -36,7 +36,7 @@ $ npm start
 
 Endpoint
 ```
-(GET) List advertisements: http://localhost:3000/apiv1/anuncios
+(GET) List advertisements: http://localhost:3000/apiv1/advertisements
 ```
 
 filters parameters : filter(price, name, tags), sort and limit.
@@ -46,7 +46,7 @@ filters parameters : filter(price, name, tags), sort and limit.
 Endpoint Register
 
 ```
-(POST) List advertisements: http://localhost:3000/apiv1/users/register
+(POST) Register : http://localhost:3000/apiv1/users/register
 ```
 Parameters:
 ```
