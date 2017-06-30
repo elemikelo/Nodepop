@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const logger = require('morgan')
 const HTTPStatus = require('http-status')
-const messages = require('./Middlewares/messages.js')
+const messages = require('./middlewares/messages.js')
 
 const app = express()
 
@@ -16,7 +16,9 @@ app.set('view engine', 'ejs')
 // Middlewares
 app.use(logger('dev'))
 app.use(messages)
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -36,7 +38,11 @@ app.use(function (err, req, res, next) {
   res.status(err.status || HTTPStatus.INTERNAL_SERVER_ERROR)
 
   if (isAPI(req)) {
-    res.json({success: false, lang: res.language, error: err.message})
+    res.json({
+      success: false,
+      lang: res.language,
+      error: err.message
+    })
     return
   }
   // set locals, only providing error in development
@@ -47,7 +53,7 @@ app.use(function (err, req, res, next) {
   res.render('error')
 })
 
-function isAPI (req) {
+function isAPI(req) {
   return req.originalUrl.indexOf('/apiv') === 0
 }
 
